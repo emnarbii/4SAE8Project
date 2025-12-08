@@ -2,7 +2,7 @@
 
 <input type="text" [(ngModel)]='searchItem' >
 <button routerLink="./add">add new suggestion</button>
-<div class="card" *ngFor="let s of filter()">
+<div class="card" *ngFor="let s of suggestionList">
   <div class="card-header">
     {{ s.title }}
   </div>

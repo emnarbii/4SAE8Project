@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { SuggestionService } from '../../../core/services/suggestion.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-form',
@@ -8,7 +10,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class FormComponent {
   suggForm!: FormGroup;
-  constructor() {
+  constructor(private suggData:SuggestionService, private route:Router) {
     this.suggForm = new FormGroup({
       title: new FormControl('', [
         Validators.required,
@@ -36,6 +38,6 @@ export class FormComponent {
     return this.suggForm.get('title');
   }
   submit() {
-    return console.log(this.suggForm.get('title'));
+    return this.suggData.create(this.suggForm.value).subscribe(()=>this.route.navigate(['./']));
   }
 }
