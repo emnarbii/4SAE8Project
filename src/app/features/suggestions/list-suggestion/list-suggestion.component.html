@@ -2,7 +2,7 @@
 
 <input type="text" [(ngModel)]='searchItem' >
 <button routerLink="./add">add new suggestion</button>
-<div class="card" *ngFor="let s of suggestionList">
+<div class="card" *ngFor="let s of filtredList">
   <div class="card-header">
     {{ s.title }} -- {{s.category}}
   </div>
@@ -25,7 +25,7 @@
       Add to favorite
     </button>
     <a [routerLink]="['./',s.id]">more details</a>
-     <a [routerLink]="['./update',s.id]">update</a>
+     <a [routerLink]="['./',s.id]" (click)="delete(s.id)">delete</a>
   </div>
 </div>
 
