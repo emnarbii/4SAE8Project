@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Suggestion } from '../../../models/suggestion';
 import { SuggestionService } from '../../../core/services/suggestion.service';
 
@@ -26,7 +26,11 @@ export class FormComponent {
     'Autre',
   ];
 
-  constructor(private route: Router, private data:SuggestionService) {
+  constructor(
+    private route: Router,
+    private data: SuggestionService,
+    private act: ActivatedRoute
+  ) {
     this.suggForm = new FormGroup({
       title: new FormControl('', [
         Validators.required,
@@ -46,7 +50,14 @@ export class FormComponent {
   }
 
   ngOnInit() {
-    console.log(this.suggForm.get('title'));
+    //get id from URL
+    this.id = this.act.snapshot.params['id'];
+    //get suggestion by id and patch the form with
+    this.data.getById(this.id).subscribe((data) => {
+      this.suggestion = data.suggestion;
+      this.suggForm.patchValue(this.suggestion);
+    });
+    console.log(this.id);
   }
 
   get title() {
@@ -56,6 +67,14 @@ export class FormComponent {
     return this.suggForm.get('description');
   }
   submit() {
-    this.data.add(this.suggForm.value).subscribe(()=>this.route.navigate(['/suggestions']))
+    if (this.id) {
+      this.data
+        .update(this.id, this.suggForm.value)
+        .subscribe(() => this.route.navigate(['/suggestions']));
+    } else {
+      this.data
+        .add(this.suggForm.value)
+        .subscribe(() => this.route.navigate(['/suggestions']));
+    }
   }
 }

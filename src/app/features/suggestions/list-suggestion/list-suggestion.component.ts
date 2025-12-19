@@ -22,6 +22,10 @@ export class ListSuggestionComponent {
     this.data.getList().subscribe(data=>this.filtredList=data)
   }
  
+
+
+
+
   clickMe() {
     return alert('vous avez cliqué!!!!');
   }
@@ -38,7 +42,7 @@ export class ListSuggestionComponent {
   }
 
   delete(id:number){
-  this.data.delete(id).subscribe(()=>this.route.navigate(['/suggestions']))
+  this.data.delete(id).subscribe(()=>this.ngOnInit())
   }
 
   // filter() {

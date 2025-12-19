@@ -17,7 +17,7 @@ export class SuggestionService {
 
   // get suggestion by Id
   getById(id: number) {
-    return this._http.get<{success:boolean, suggestion:Suggestion}>(this.suggestionUrl + '/' + id);
+    return this._http.get<{suggestion:Suggestion}>(this.suggestionUrl + '/' + id);
   }
 
   // add new suggestion

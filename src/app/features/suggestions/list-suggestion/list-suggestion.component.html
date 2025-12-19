@@ -1,19 +1,19 @@
 <h1>Liste de Suggestions</h1>
 
-<input type="text" [(ngModel)]='searchItem' >
+<input type="text" [(ngModel)]="searchItem" />
 <button routerLink="./add">add new suggestion</button>
 <div class="card" *ngFor="let s of filtredList">
-  <div class="card-header">
-    {{ s.title }} -- {{s.category}}
-  </div>
+  <div class="card-header">{{ s.title }} -- {{ s.category }}</div>
   <div class="card-body">
     <h5 class="card-title">
       {{ s.category | uppercase }} -- {{ s.date | formatDate }}
     </h5>
     <p class="card-text">{{ s.description }}</p>
-    <h3 *ngIf="s.status=='acceptee'" style="color: green;">{{ s.status }}</h3>
-    <h3 *ngIf="s.status=='refusee'" style="color: red;">{{ s.status }}</h3>
-    <h3 *ngIf="s.status=='en_attente'" style="color: orange;">{{ s.status }}</h3>
+    <h3 *ngIf="s.status == 'acceptee'" style="color: green">{{ s.status }}</h3>
+    <h3 *ngIf="s.status == 'refusee'" style="color: red">{{ s.status }}</h3>
+    <h3 *ngIf="s.status == 'en_attente'" style="color: orange">
+      {{ s.status }}
+    </h3>
 
     <button *ngIf="s.status == 'acceptee'" (click)="like(s)">
       Like {{ s.nbLikes }}
@@ -24,14 +24,18 @@
     >
       Add to favorite
     </button>
-    <a [routerLink]="['./',s.id]">more details</a>
-     <a [routerLink]="['./',s.id]" (click)="delete(s.id)">delete</a>
+    <a [routerLink]="['./', s.id]">more details</a>
+    <a [routerLink]="['./update', s.id]">update</a>
+
+    <button (click)="delete(s.id)">delete</button>
   </div>
 </div>
 
 <h1>Favorites List</h1>
 <div>
   <ul>
-    <li *ngFor="let f of favoriteList">{{ f.title  }} --- {{ f.date| date }}</li>
+    <li *ngFor="let f of favoriteList">
+      {{ f.title }} --- {{ f.date | date }}
+    </li>
   </ul>
 </div>
